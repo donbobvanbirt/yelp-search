@@ -1,8 +1,14 @@
 const PORT = 8000;
 
 const express = require('express');
+const path = require('path');
 const morgan = require('morgan')
 const bodyParser = require('body-parser')
+const webpack = require('webpack');
+const webpackDevMiddleware = require('webpack-dev-middleware');
+const webpackHotMiddleware = require('webpack-hot-middleware');
+
+const webpackConfig = require('./webpack.config');
 
 const Yelp = require('./models/yelp');
 
@@ -13,14 +19,16 @@ app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// ROUTES
-  // GET /
-app.get('/', (req, res) => {
-  let obj = {
-    message: 'Hello world!'
-  };
-  res.send(obj);
-});
+// WEBPACK CONFIGURATION
+const compiler = webpack(webpackConfig);
+app.use(webpackHotMiddleware(compiler));
+app.use(webpackDevMiddleware(compiler, {
+  publicPath: webpackConfig.output.publicPath,
+  noInfo: true,
+  hot: true,
+  path: webpackConfig.output.path
+}));
+
 
 app.get('/search', (req, res) => {
   let { search, location } = req.query;
@@ -49,20 +57,11 @@ app.get('/business/:id', (req, res) => {
 //   console.log('req.query:', req.query);
 //
 //   res.send(req.params.id);
-// })
-//
-//   // POST
-// app.post('/clogs', (req, res) => {
-//   console.log('req.body:', req.body)  // points to bodyParser
-//
-//   Clog.create(req.body, err => {
-//     if(err) return res.status(400).send(err);
-//
-//     res.send();
-//   });
-//
-//   // res.send('new clog created\n');
-// })
+
+app.use("*", function(request, response) {
+	//send the index.html
+    response.sendFile(path.join(__dirname, "build/index.html"));
+});
 
 app.listen(PORT, err => {
   console.log(err || `Express listening on port ${PORT}`);

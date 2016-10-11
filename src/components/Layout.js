@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 
+import { Link } from 'react-router'
+import classNames from 'classnames'
+
 export default class Layout extends Component {
   constructor() {
     super();
@@ -8,7 +11,11 @@ export default class Layout extends Component {
   render() {
     return (
       <div className='container'>
-        <h1 className='text-center'>React Webpack</h1>
+        <h1 className='text-center'>Yelp Search!!</h1>
+
+        <div className='center'>
+          {this.props.children}
+        </div>
       </div>
     )
   }
