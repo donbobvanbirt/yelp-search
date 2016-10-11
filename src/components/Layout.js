@@ -9,9 +9,15 @@ export default class Layout extends Component {
   }
 
   render() {
+    let path = this.props.location.pathname;
+
     return (
       <div className='container'>
-        <h1 className='text-center'>Yelp Search!!</h1>
+        <ul className="nav nav-tabs">
+          <li role="presentation" className={classNames({active: path === '/'})}><Link to ='/'>Search</Link></li>
+
+          <li role="presentation" className={classNames({active: path === '/test'})}><Link to ='/favorites'>Favorites</Link></li>
+        </ul>
 
         <div className='center'>
           {this.props.children}
