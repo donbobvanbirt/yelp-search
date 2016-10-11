@@ -2,6 +2,7 @@ import { EventEmitter } from 'events';
 import AppDispatcher from '../AppDispatcher'
 
 let _searchResults = null;
+let _businessInfo = null;
 
 class YelpStore extends EventEmitter {
   constructor() {
@@ -10,11 +11,15 @@ class YelpStore extends EventEmitter {
     AppDispatcher.register(action => {
       switch (action.type) {
         case 'RECEIVE_SEARCH':
-        _searchResults = action.payload.data;
-        // console.log('searchResults in store', _searchResults);
-        this.emit('CHANGE');
-        break;
-
+          _searchResults = action.payload.data;
+          // console.log('searchResults in store', _searchResults);
+          this.emit('CHANGE');
+          break;
+        case 'RECEIVE_INFO':
+          _businessInfo = action.payload.data;
+          // console.log('_businessInfo', _businessInfo)
+          this.emit('CHANGE');
+          break;
       }
     })
   }
@@ -27,8 +32,12 @@ class YelpStore extends EventEmitter {
     this.removeListener('CHANGE', cb)
   }
 
-  getAll() {
+  getSearch() {
     return _searchResults;
+  }
+
+  getInfo() {
+    return _businessInfo;
   }
 }
 

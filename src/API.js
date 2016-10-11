@@ -11,6 +11,15 @@ const API = {
       ServerActions.receiveSearch(data);
     })
     .catch(console.error);
+  },
+
+  getInfo(id) {
+    get(`/business/${id}`)
+    .then(res => {
+      let { data } = res;
+      // console.log("data", data);
+      ServerActions.receiveInfo(data);
+    })
   }
 }
 
