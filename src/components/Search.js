@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { browserHistory } from 'react-router'
 
 import YelpActions from '../actions/YelpActions'
+import SearchResults from './SearchResults'
 
 export default class Search extends Component {
   constructor() {
@@ -30,6 +31,7 @@ export default class Search extends Component {
           </div>
           <button className="btn btn-default">Search</button>
         </form>
+        <SearchResults/>
       </div>
     )
   }
