@@ -28,17 +28,21 @@ export default class SearchResults extends Component {
     })
   }
 
+  _getInfo(id) {
+    console.log('id', id);
+  }
+
   render() {
     let businesses = [];
     let resultsList = '';
     if(this.state.results) {
       businesses = this.state.results.businesses;
-      resultsList = businesses.map(bus => {
+      resultsList = businesses.map((bus, i) => {
         return (
-          <tr>
+          <tr key={i}>
             <td>{bus.name}</td>
-
             <td>{bus.location.city}, {bus.location.state_code}</td>
+            <td><button onClick={() => this._getInfo(bus.id)} className="btn btn-default"><span className="glyphicon glyphicon-info-sign"></span></button></td>
           </tr>
         )
       })
@@ -54,6 +58,7 @@ export default class SearchResults extends Component {
             <tr>
               <th>Name</th>
               <th>Location</th>
+              <th>Info</th>
             </tr>
           </thead>
           <tbody>
